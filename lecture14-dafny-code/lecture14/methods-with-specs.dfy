@@ -22,9 +22,8 @@ method maxMinMethod(i : int, j : int) returns (mx : int, mn:int)
 }
 
 method even(x : int) returns (result : bool){//write by myself
+  if x % 2 == 0 {result := true;return;}//we have to return to break the method, otherwise result gonna be always false
   result := false;
-  if x % 2 == 0 {return !result;}
-  return result;
 }
 // an example, dafny cannot use addOne implementation in another method, it can only use specifications
 method addOne(x: int) returns (r: int)

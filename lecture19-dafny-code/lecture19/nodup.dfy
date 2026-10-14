@@ -8,13 +8,15 @@ predicate sorted(a: seq<int>)
 { forall i, j :: 0 <= i < j < |a| ==> a[i] <= a[j] }
 
 /* The easy case: sorted, so any duplicates are adjacent. */
-method nodup_srt_incomplete(a: seq<int>) returns (b: bool)
+method nodup_srt_incomplete(a: seq<int>) returns (b: bool)//michael said this is for top student
   requires sorted(a)
   ensures b <==> dup_free(a)
 {
   if |a| == 0 { return true; }
   var m: nat := |a| - 1;
   while m > 0
+  invariant m >= 0
+  invariant dup_free(a[m..])
     // m counts down from the top of the sequence;
     // what do we know about the slice of the sequence
     // that we have looked at so far?
@@ -49,7 +51,7 @@ method nodup_srt(a: seq<int>) returns (b: bool)
    each element in turn to see if it occurs in the rest of the 
    sequence (with a higher index). This version counts up.
 */
-method nodup_incomplete(a: seq<int>) returns (b: bool)
+method nodup_incomplete(a: seq<int>) returns (b: bool)//this one is hard
   ensures b <==> dup_free(a)
 {
   if |a| == 0 { return true; }
@@ -57,9 +59,15 @@ method nodup_incomplete(a: seq<int>) returns (b: bool)
   while m < |a| - 1 
     // stop one short of end to be able to compare with 
     // the very last element
+    invariant m <= |a| - 1
+    invariant forall x : nat | x < m :: a[x] !in a[x+1..]
   {
     var n : nat := m + 1;
     while n < |a|
+    // invariant m <= |a| - 1
+    invariant n <= |a|
+    // invariant forall x : nat | x < m :: a[x] !in a[x+1..]
+    invariant forall x : nat | m < x < n :: a[x] != a[m]
     {
       if a[n] == a[m] { return false; }
       n := n + 1;
