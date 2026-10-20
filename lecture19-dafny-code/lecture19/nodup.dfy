@@ -60,14 +60,14 @@ method nodup_incomplete(a: seq<int>) returns (b: bool)//this one is hard
     // stop one short of end to be able to compare with 
     // the very last element
     invariant m <= |a| - 1
-    invariant forall x : nat | x < m :: a[x] !in a[x+1..]
+    invariant forall x : nat | x < m :: a[x] !in a[x+1..]//cannot be x==m, because m has added 1
   {
     var n : nat := m + 1;
     while n < |a|
     // invariant m <= |a| - 1
     invariant n <= |a|
     // invariant forall x : nat | x < m :: a[x] !in a[x+1..]
-    invariant forall x : nat | m < x < n :: a[x] != a[m]
+    invariant forall x : nat | m < x < n :: a[x] != a[m]//cannot <=n because n has added 1
     {
       if a[n] == a[m] { return false; }
       n := n + 1;
