@@ -12,6 +12,7 @@ method inc_incomplete(a: array<int>)
   while (i < a.Length)
     invariant 0 <= i <= a.Length
     invariant forall j:nat | j < i :: a[j] == old(a[j]) + 1
+    invariant forall k : nat | i <= k < a.Length :: a[k] == old(a[k])
     // the same recipe as level 1's ‘zero’`, but it is not enough.
     // read the complaint: which of the three questions failed?
     // then ask what we need to know about a[i] JUST BEFORE we

@@ -9,6 +9,8 @@ method zero_incomplete(a: array<int>)
   while (i < a.Length)
     // the postcondition talks about the whole array.
     // in here we have only got as far as i ...
+    invariant i<=a.Length
+    invariant forall j :: 0 <= j < i ==> a[j] == 0
   {
     a[i] := 0;
     i := i + 1;
