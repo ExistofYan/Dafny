@@ -28,6 +28,9 @@ datatype tree = Leaf | Node(left: tree, data: int, right: tree)
 function size(t: tree) : nat
 {
   /* YOUR WORK GOES HERE */
+  match t
+  case Leaf => 0
+  case Node(l,d,r) => 1 + size(l) + size(r)
 }
 
 /* 3B.
@@ -39,6 +42,9 @@ function size(t: tree) : nat
 function mirror(t: tree) : tree
 {
   /* YOUR WORK GOES HERE */
+  match t
+  case Leaf => Leaf
+  case Node(l,d,r) => Node(mirror(r),d,mirror(l))
 }
 
 /* 3C.
@@ -49,6 +55,9 @@ function mirror(t: tree) : tree
 function sumTree(t: tree) : int
 {
   /* YOUR WORK GOES HERE */
+  match t
+  case Leaf => 0
+  case Node(l,d,r) => d + sumTree(l) + sumTree(r)
 }
 
 /* 3D.
@@ -58,6 +67,9 @@ function sumTree(t: tree) : int
    1 mark
 */
 /* YOUR WORK GOES HERE */
+lemma test1(t : tree)
+ensures sumTree(t) == sumTree(mirror(t))
+{}
 
 /* 3E.
    Define inorder(t), the list of values in t in left-to-right
@@ -68,6 +80,9 @@ function sumTree(t: tree) : int
 function inorder(t: tree) : ilist
 {
   /* YOUR WORK GOES HERE */
+  match t
+  case Leaf => Nil
+  case Node(l,d,r) => append(inorder(l),Cons(d,inorder(r)))
 }
 
 /* 3F.
@@ -81,3 +96,6 @@ function inorder(t: tree) : ilist
    3 marks
 */
 /* YOUR WORK GOES HERE */
+lemma test2(t : tree)
+ensures length(inorder(t)) == size(t)
+{}

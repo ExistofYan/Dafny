@@ -28,6 +28,9 @@ include "core-list.dfy"
 function count(x: int, l: ilist) : nat
 {
   /* YOUR WORK GOES HERE */
+  match l
+  case Nil => 0
+  case Cons(h,t) => if x == h then 1 + count(x,t) else count(x,t)
 }
 
 /* 2B.
@@ -37,6 +40,9 @@ function count(x: int, l: ilist) : nat
    1 mark
 */
 /* YOUR WORK GOES HERE */
+lemma test1()
+ensures count(1,Cons(1,Cons(2,Cons(1,Cons(3,Nil))))) == 2
+{}
 
 /* 2C.
    State and prove that counting x in append(l1, l2) gives the
@@ -45,6 +51,9 @@ function count(x: int, l: ilist) : nat
    2 marks
 */
 /* YOUR WORK GOES HERE */
+lemma test2(l1 : ilist , l2 :ilist , x : int)
+ensures count(x,append(l1,l2)) == count(x,l1) + count(x,l2)
+{}
 
 /* 2D.
    State and prove that x is a member of l if and only if
@@ -53,6 +62,9 @@ function count(x: int, l: ilist) : nat
    2 marks
 */
 /* YOUR WORK GOES HERE */
+lemma test3(x : int , l : ilist)
+ensures count(x,l) > 0 ==> member(x,l)
+{}
 
 /* 2E.
    State and prove that reversing a list does not change the
@@ -62,3 +74,8 @@ function count(x: int, l: ilist) : nat
    2 marks
 */
 /* YOUR WORK GOES HERE */
+lemma test4(x : int , l : ilist)
+ensures count(x,l) == count(x,reverse(l))
+{
+ assert true;
+}

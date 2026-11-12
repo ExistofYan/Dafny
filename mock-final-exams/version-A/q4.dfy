@@ -27,6 +27,9 @@ function power(b: int, n: nat) : int
    1 mark
 */
 /* YOUR WORK GOES HERE */
+lemma test1()
+ensures power(3,4) == 81
+{}
 
 /* 4B.
    Implement powerLoop using a while loop (no recursion and no
@@ -39,6 +42,17 @@ method powerLoop(b: int, n: nat) returns (r: int)
   ensures r == power(b, n)
 {
   /* YOUR WORK GOES HERE */
+  var x , y := b , n;
+  var sum := 1;
+  if y == 0 { r := 1;}
+  while(y > 0)
+  invariant y >= 0
+  invariant sum == power(x,n-y)
+  {
+    sum := sum * x;
+    y := y - 1;
+  }
+  r := sum;
 }
 
 /* 4C.
@@ -61,6 +75,8 @@ method sumOdds(n: nat) returns (s: nat)
   while i < n
     invariant i <= n
     /* YOUR WORK GOES HERE */
+    invariant if i % 2 == 0 then s % 2 == 0 else s % 2 == 1 //  1 3 5 7 9 -> 1 4 9 16 25
+    invariant s == i * i
   {
     s := s + 2 * i + 1;
     i := i + 1;
@@ -78,7 +94,7 @@ method sumOdds(n: nat) returns (s: nat)
 */
 function digits(n: nat) : nat
 {
-  if n < 10 then 1 else 1 + digits(n / 10)
+  if n < 10 then 1 else 1 + digits(n / 10)//123 -> 1 + 1 + 1 = 3
 }
 
 method digitsLoop(n0: nat) returns (d: nat)
@@ -88,6 +104,9 @@ method digitsLoop(n0: nat) returns (d: nat)
   d := 1;
   while n >= 10
     /* YOUR WORK GOES HERE */
+    invariant n >= 0
+    invariant d == digits(n0) - digits(n) + 1
+    decreases n
   {
     n := n / 10;
     d := d + 1;

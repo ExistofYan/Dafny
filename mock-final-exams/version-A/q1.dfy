@@ -29,6 +29,7 @@ predicate valid_time(t: time) { t.hour < 24 && t.minute < 60 }
 predicate earlier(t1: time, t2: time)
 {
   /* YOUR WORK GOES HERE */
+  t1.hour < t2.hour || (t1.hour == t2.hour && t1.minute < t2.minute) 
 }
 
 /* 1B.
@@ -38,6 +39,9 @@ predicate earlier(t1: time, t2: time)
    1 mark
 */
 /* YOUR WORK GOES HERE */
+lemma test1()
+ensures earlier(T(9,59),T(10,0))
+{}
 
 /* 1C.
    State and prove that earlier is transitive: if t1 is earlier
@@ -46,6 +50,9 @@ predicate earlier(t1: time, t2: time)
    2 marks
 */
 /* YOUR WORK GOES HERE */
+lemma test2(t1 : time , t2 : time , t3 : time)
+ensures earlier(t1,t2) && earlier(t2,t3) ==> earlier(t1,t3)
+{}
 
 /* 1D.
    Define tick(t), the time one minute after t.  23:59 ticks
@@ -58,6 +65,9 @@ function tick(t: time) : time
   requires valid_time(t)
 {
   /* YOUR WORK GOES HERE */
+  if t.minute == 59 && t.hour == 23 then T(0 , 0)
+  else if t.minute == 59 && 0 <= t.hour < 23 then T(t.hour + 1 , 0)
+  else T(t.hour ,t.minute + 1)
 }
 
 /* 1E.
@@ -66,6 +76,10 @@ function tick(t: time) : time
    1 mark
 */
 /* YOUR WORK GOES HERE */
+lemma test3(t : time)
+ requires valid_time(t) 
+ ensures valid_time(tick(t))
+{}
 
 /* 1F.
    State and prove that for every valid time t other than 23:59,
@@ -74,3 +88,8 @@ function tick(t: time) : time
    1 mark
 */
 /* YOUR WORK GOES HERE */
+lemma test4(t : time)
+requires t != T(23,59)
+requires valid_time(t)
+ensures earlier(t,tick(t))
+{}
