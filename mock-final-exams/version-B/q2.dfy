@@ -73,11 +73,13 @@ ensures member(x,A) && subset(A,B) ==> member(x,B)
 */
 /* YOUR WORK GOES HERE */
 lemma transitive(A : ilist , B : ilist , C : ilist)
-ensures subset(A,B) && subset(B,C) ==> subset(A,C)
+  requires subset(A, B) && subset(B, C)
+  ensures subset(A, C)
 {
    match A case Nil => {}
    case Cons(h,t) => {
-      
+      assert member(h,B);
+      assert member(h,C) by {member_subset(h,B,C);}
    }
 }
 /* 2E.
@@ -88,3 +90,6 @@ ensures subset(A,B) && subset(B,C) ==> subset(A,C)
    2 marks
 */
 /* YOUR WORK GOES HERE */
+lemma reflexive(x : int , A : ilist , B : ilist)
+ensures subset(A,B) ==> subset(A,Cons(x,B))
+{}
