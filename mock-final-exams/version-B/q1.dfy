@@ -26,9 +26,13 @@
 */
 function sumRange(lo: int, hi: int) : int
   /* YOUR WORK GOES HERE */
+  decreases hi - lo
 {
   if lo >= hi then 0 else lo + sumRange(lo + 1, hi)
 }
+lemma test1()
+ensures sumRange(3, 6) == 12
+{}
 
 /* YOUR WORK GOES HERE */
 
@@ -41,6 +45,7 @@ function sumRange(lo: int, hi: int) : int
 */
 function f(m: nat, n: nat) : nat
   /* YOUR WORK GOES HERE */
+  decreases m , n
 {
   if m == 0 then n
   else if n == 0 then f(m - 1, 10)
@@ -56,12 +61,14 @@ function f(m: nat, n: nat) : nat
 */
 predicate isEvenN(n: nat)
   /* YOUR WORK GOES HERE */
+  decreases n
 {
   if n == 0 then true else isOddN(n - 1)
 }
 
 predicate isOddN(n: nat)
   /* YOUR WORK GOES HERE */
+  decreases n
 {
   if n == 0 then false else isEvenN(n - 1)
 }
@@ -76,3 +83,8 @@ predicate isOddN(n: nat)
    2 marks
 */
 /* YOUR WORK GOES HERE */
+lemma test2(n : nat)
+decreases n
+ensures isEvenN(n) <==> n % 2 == 0
+ensures isOddN(n)  <==> n % 2 == 1
+{}

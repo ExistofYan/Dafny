@@ -32,6 +32,9 @@ lemma even_add(m: int, n: int)
   ensures isEven(m + n)
 {
   /* YOUR WORK GOES HERE */
+  var i :| m == 2 * i;
+  var j :| n == 2 * j;
+  assert m + n == 2 * (i + j);
 }
 
 /* 6B.
@@ -44,6 +47,10 @@ lemma even_mul(m: int, n: int)
   ensures isEven(m * n)
 {
   /* YOUR WORK GOES HERE */
+  var i :| m == 2 * i;
+  assert forall j : int :: j * m == 2 * i * j;
+  var j :| j == n;
+  assert n * m == 2 * (i * n);
 }
 
 /* 6C.

@@ -75,7 +75,7 @@ method sumOdds(n: nat) returns (s: nat)
   while i < n
     invariant i <= n
     /* YOUR WORK GOES HERE */
-    invariant if i % 2 == 0 then s % 2 == 0 else s % 2 == 1 //  1 3 5 7 9 -> 1 4 9 16 25
+    // invariant if i % 2 == 0 then s % 2 == 0 else s % 2 == 1 //  1 3 5 7 9 -> 1 4 9 16 25
     invariant s == i * i
   {
     s := s + 2 * i + 1;

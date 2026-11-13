@@ -31,6 +31,9 @@ include "core-list.dfy"
 predicate subset(A: ilist, B: ilist)
 {
   /* YOUR WORK GOES HERE */
+  match A
+  case Nil => true
+  case  Cons(h,t) => member(h,B) && subset(t,B)
 }
 
 /* 2B.
@@ -40,7 +43,9 @@ predicate subset(A: ilist, B: ilist)
    1 mark
 */
 /* YOUR WORK GOES HERE */
-
+lemma test1()
+ensures subset(Cons(1,Cons(2,Nil)),Cons(2,Cons(3,Cons(1,Nil))))
+{}
 /* 2C.
    State and prove that if x is a member of A, and A is a
    subset of B, then x is a member of B.
@@ -48,7 +53,18 @@ predicate subset(A: ilist, B: ilist)
    2 marks
 */
 /* YOUR WORK GOES HERE */
-
+lemma member_subset(x : int , A : ilist , B : ilist)
+ensures member(x,A) && subset(A,B) ==> member(x,B)
+{
+   match A case Nil => {}
+   case Cons(h,t) => {
+      if x== h {
+         
+      }else {
+         member_subset(x,t,B);
+      }
+   }
+}
 /* 2D.
    State and prove that subset is transitive.  Your proof must
    use member_subset.
@@ -56,7 +72,14 @@ predicate subset(A: ilist, B: ilist)
    2 marks
 */
 /* YOUR WORK GOES HERE */
-
+lemma transitive(A : ilist , B : ilist , C : ilist)
+ensures subset(A,B) && subset(B,C) ==> subset(A,C)
+{
+   match A case Nil => {}
+   case Cons(h,t) => {
+      
+   }
+}
 /* 2E.
    State and prove that subset is reflexive: subset(A, A).
    You will need to state, prove and use an auxiliary lemma:

@@ -57,7 +57,7 @@ lemma count_append(x: int, l1: ilist, l2: ilist)
 
    2 marks
 */
-lemma member_count(x: int, l: ilist)
+lemma member_count(x: int, l: ilist) 
   ensures member(x, l) <==> count(x, l) > 0
 {}
 
