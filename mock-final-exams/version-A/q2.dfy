@@ -51,7 +51,7 @@ ensures count(1,Cons(1,Cons(2,Cons(1,Cons(3,Nil))))) == 2
    2 marks
 */
 /* YOUR WORK GOES HERE */
-lemma test2(l1 : ilist , l2 :ilist , x : int)
+lemma count_append(l1 : ilist , l2 :ilist , x : int)
 ensures count(x,append(l1,l2)) == count(x,l1) + count(x,l2)
 {}
 
@@ -77,5 +77,14 @@ ensures count(x,l) > 0 ==> member(x,l)
 lemma test4(x : int , l : ilist)
 ensures count(x,l) == count(x,reverse(l))
 {
- assert true;
+   match l case Nil => {}
+   case Cons(h,t) => {
+      test4(x,t);
+      assert l == append(Cons(h,Nil),t);
+      count_append(Cons(h,Nil),t,x);
+      assert count(x,l) == count(x,Cons(h,Nil)) + count(x,t);
+      assert reverse(l) == append(reverse(t),Cons(h,Nil));
+      count_append(reverse(t),Cons(h,Nil),x);
+      assert count(x,reverse(l)) == count(x,reverse(t)) + count(x,Cons(h,Nil));
+   }
 }

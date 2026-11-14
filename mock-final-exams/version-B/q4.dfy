@@ -34,8 +34,16 @@ method lucasLoop(n: nat) returns (a: int)
   a := 2;
   while i < n
     /* YOUR WORK GOES HERE */
+    invariant i <= n
+    invariant a == lucas(i)
+    invariant b == lucas(i + 1)//已经说过很多次了，只要创建了变量就要写invariant!!!!!!!!!
   {
     a, b, i := b, a + b, i + 1;
+    // 2 1 0 | 1 3 1 | 3 4 2 | 4 7 3
+    //a : 2 1 3 4 7
+    //b : 1 3 4 7 11
+    //i : 0 1 2 3 4
+//lucas : 2 1 3 4 7
   }
 }
 
@@ -58,6 +66,9 @@ method sumDown(n0: nat) returns (s: nat)
   s := 0;
   while n > 0
     /* YOUR WORK GOES HERE */
+    invariant n >=0
+    invariant s == sumTo(n0) - sumTo(n)
+    decreases n
   {
     s := s + n;
     n := n - 1;
@@ -76,7 +87,7 @@ method sumDown(n0: nat) returns (s: nat)
 method startsAtOne(n: nat) returns (i: nat)
   ensures i == n
 {
-  i := 1;
+  i := 0;
   while i < n
     invariant i <= n
   {
@@ -96,14 +107,17 @@ method startsAtOne(n: nat) returns (i: nat)
 method collatz(n0: nat) returns (n: nat)
   requires n0 > 0
   ensures n == 1
+  decreases *//如果循环有这个，那么方法也要加上
   /* YOUR WORK GOES HERE */
 {
   n := n0;
   while n > 1
     invariant n > 0
     /* YOUR WORK GOES HERE */
+    invariant n >= 1
+    decreases *
   {
-    if n % 2 == 0 { n := n / 2; } else { n := 3 * n + 1; }
+    if n % 2 == 0 { n := n / 2; } else { n := 3 * n + 1; }//3 10 5 16 8 4 2 1
   }
 }
 /* YOUR WORK GOES HERE */

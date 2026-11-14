@@ -28,6 +28,8 @@ datatype dict = Empty | Entry(key: int, data: string, rest: dict)
 function lookup(k: int, d: dict) : option<string>
 {
   /* YOUR WORK GOES HERE */
+  match d case Empty => None
+  case Entry(key,data,r) => if key == k then Some(data) else lookup(k,r) 
 }
 
 /* 1B.
@@ -39,6 +41,8 @@ function lookup(k: int, d: dict) : option<string>
 function insert(k: int, v: string, d: dict) : dict
 {
   /* YOUR WORK GOES HERE */
+  match d case Empty => Entry(k,v,Empty)
+  case Entry(key,data,rest) => if key == k then Entry(k,v,rest) else Entry(key,data,insert(k,v,rest))
 }
 
 /* 1C.
@@ -48,6 +52,9 @@ function insert(k: int, v: string, d: dict) : dict
    1 mark
 */
 /* YOUR WORK GOES HERE */
+lemma lokkingup_insert()
+ensures lookup(2,insert(1,"a",insert(2, "b", Empty))) == Some("b")
+{}
 
 /* 1D.
    State and prove that after inserting k |-> v, looking up k
@@ -75,6 +82,8 @@ function insert(k: int, v: string, d: dict) : dict
 function remove(k: int, d: dict) : dict
 {
   /* YOUR WORK GOES HERE */
+  match d case Empty => Empty
+  case Entry(key,data,rest) => if key == k then rest else Entry(key,data,remove(k,rest))
 }
 
 /* YOUR WORK GOES HERE */

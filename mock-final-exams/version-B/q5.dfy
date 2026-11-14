@@ -24,8 +24,10 @@
 */
 predicate sortedArr(a: array<int>)
   /* YOUR WORK GOES HERE */
+  reads a
 {
   /* YOUR WORK GOES HERE */
+  forall i : nat , j : nat | i < j < a.Length :: a[i] <= a[j]
 }
 
 /* 5B.

@@ -96,6 +96,18 @@ function inorder(t: tree) : ilist
    3 marks
 */
 /* YOUR WORK GOES HERE */
-lemma test2(t : tree)
+lemma {:induction false} test2(t : tree)
 ensures length(inorder(t)) == size(t)
+{
+   match t case Leaf => {}
+   case Node(l,k,r) => {
+      test2(l);
+      test2(r);
+      assert inorder(t) == append(inorder(l),Cons(k,inorder(r)));
+      assert size(t) == 1 + size(l) + size(r);
+      append_length(inorder(l),Cons(k,inorder(r)));
+   }
+}
+lemma append_length(l1 : ilist , l2 :ilist)
+ensures length(append(l1,l2)) == length(l1) + length(l2)
 {}

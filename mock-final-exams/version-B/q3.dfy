@@ -38,6 +38,9 @@ function sumList(l: ilist) : int
 function sumAcc(l: ilist, acc: int) : int
 {
   /* YOUR WORK GOES HERE */
+  match l
+  case Nil => 0
+  case Cons(x, xs) => x + sumAcc(xs,acc + x)
 }
 
 /* 3B.
@@ -47,7 +50,9 @@ function sumAcc(l: ilist, acc: int) : int
    1 mark
 */
 /* YOUR WORK GOES HERE */
-
+lemma sumAcc_accumulator()
+ensures sumAcc(Cons(1,Cons(2,Cons(3,Nil))),0) == 6
+{}
 /* 3C.
    State and prove the GENERALISED lemma relating sumAcc(l, acc)
    to sumList(l), for every acc.  Make the inductive call
@@ -56,7 +61,9 @@ function sumAcc(l: ilist, acc: int) : int
    2 marks
 */
 /* YOUR WORK GOES HERE */
-
+lemma sumAcc_sumList(l: ilist, acc: int)
+ensures sumAcc(l, acc) == sumList(l)
+{}
 /* 3D.
    Using 3C, prove that sumAcc(l, 0) == sumList(l).
 
@@ -66,6 +73,7 @@ lemma sumAcc_zero(l: ilist)
   ensures sumAcc(l, 0) == sumList(l)
 {
   /* YOUR WORK GOES HERE */
+  sumAcc_sumList(l,0);
 }
 
 /* 3E.
@@ -77,6 +85,9 @@ lemma sumAcc_zero(l: ilist)
 function revAcc(l: ilist, acc: ilist) : ilist
 {
   /* YOUR WORK GOES HERE */
+  match l
+  case Nil => acc
+  case Cons(h,t) => revAcc(t,Cons(h,acc))
 }
 
 /* 3F.
@@ -86,3 +97,23 @@ function revAcc(l: ilist, acc: ilist) : ilist
    2 marks
 */
 /* YOUR WORK GOES HERE */
+lemma test1(l: ilist, acc: ilist)
+ensures revAcc(l, acc) == append(reverse(l), acc)
+{
+   match l 
+   case Nil => {
+      assert revAcc(l, acc) == acc;
+      assert reverse(l) == Nil;
+   }
+   case Cons(h,t) => {
+      test1(t,acc);
+      assert reverse(l) == append(reverse(t),Cons(h,Nil));
+      assert revAcc(l,acc) == revAcc(t,Cons(h,acc));
+      assert append(reverse(l), acc) == append(append(reverse(t),Cons(h,Nil)),acc);
+      append_associative(reverse(t),Cons(h,Nil),acc);
+      assert append(reverse(l), acc) == append(reverse(t),append(Cons(h,Nil),acc));
+   }
+}
+lemma append_associative(l1 : ilist , l2 : ilist , l3 :ilist)
+ensures append(append(l1,l2),l3) == append(l1,append(l2,l3))
+{}
